@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.libo.msproject.dao.MsmerchantDao">
+    <insert id="insertMsmerchant" parameterType="msmerchant">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO msmerchant(merchantname,merchantshopname,merchantaccount,merchantpassword,merchantscope)
+        VALUES (#{merchantname},#{merchantshopname},#{merchantaccount},#{merchantpassword},#{merchantscope})
+    </insert>
+
+    <select id="queryMsmerchantByid" parameterType="int" resultType="msmerchant">
+        SELECT id,merchantname,merchantshopname,merchantaccount,merchantpassword,merchantscope FROM msmerchant WHERE id=#{id}
+    </select>
+
+    <update id="updateMsmerchant" parameterType="msmerchant">
+        UPDATE msmerchant set merchantname = #{merchantname},merchantshopname=#{merchantshopname},
+        merchantaccount=#{merchantaccount},merchantpassword=#{merchantpassword},merchantscope=#{merchantscope}
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteMsmerchantByid" parameterType="int">
+        DELETE FROM  msmerchant WHERE id=#{id}
+    </delete>
+</mapper>
