@@ -4,8 +4,14 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeAliases>
-        <!--别名定义  -->
-        <typeAlias type="cn.libo.msproject.entity.Person" alias="person"></typeAlias>
-        <typeAlias type="cn.libo.msproject.entity.Msmerchant" alias="msmerchant"></typeAlias>
+        <!-- 别名定义 -->
+        <!-- 秒杀商家 -->
+        <typeAlias type="cn.libo.msproject.entity.Msmerchant" alias="msmerchant"/>
+        <typeAlias type="cn.libo.msproject.vo.MsmerchantVo" alias="msmerchantVo"/>
+        <!-- 秒杀用户 -->
+        <typeAlias type="cn.libo.msproject.entity.Msuser" alias="msuser"/>
+        <typeAlias type="cn.libo.msproject.vo.MsuserVo" alias="msuserVo"/>
+
+        <typeAlias type="cn.libo.msproject.entity.Msproductinfo" alias="msproductinfo"/>
     </typeAliases>
 </configuration>

@@ -4,7 +4,7 @@
     <title>Title</title>
 </head>
 <body>
-<form action="add">
+<form action="add" method="post">
     商家姓名：<input type="text" name="merchantname"><br>
     商家店铺名称：<input type="text" name="merchantshopname"><br>
     商家账号：<input type="text" name="merchantaccount"><br>
