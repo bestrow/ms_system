@@ -3,7 +3,7 @@ package cn.libo.msproject.entity;
 import java.util.Date;
 
 //秒杀商品表
-public class Msproductinfo {
+public class Msproduct {
     private int id; //主键
     private int productid; //商品id
     private String producttitle; //商品标题
@@ -13,9 +13,11 @@ public class Msproductinfo {
     private int merchantid; //商家id
     private Date applydate; //添加日期
     private Date auditdate; //审核日期
-    private int auditstate; //审核状态
+    private int auditstate; //审核状态 1.未审核 2.审核通过 3.审核不通过
     private Date starttime; //开始时间
     private Date endtime; //结束时间
+    private String starttimestring;
+    private String endtimestring;
     private int productcount; //秒杀商品数
     private int stockcount; //剩余库存数
     private String descrioption; //描述
@@ -140,9 +142,25 @@ public class Msproductinfo {
         this.descrioption = descrioption;
     }
 
+    public String getStarttimestring() {
+        return starttimestring;
+    }
+
+    public void setStarttimestring(String starttimestring) {
+        this.starttimestring = starttimestring;
+    }
+
+    public String getEndtimestring() {
+        return endtimestring;
+    }
+
+    public void setEndtimestring(String endtimestring) {
+        this.endtimestring = endtimestring;
+    }
+
     @Override
     public String toString() {
-        return "Msproductinfo{" +
+        return "Msproduct{" +
                 "id=" + id +
                 ", productid=" + productid +
                 ", producttitle='" + producttitle + '\'' +
@@ -155,6 +173,8 @@ public class Msproductinfo {
                 ", auditstate=" + auditstate +
                 ", starttime=" + starttime +
                 ", endtime=" + endtime +
+                ", starttimestring='" + starttimestring + '\'' +
+                ", endtimestring='" + endtimestring + '\'' +
                 ", productcount=" + productcount +
                 ", stockcount=" + stockcount +
                 ", descrioption='" + descrioption + '\'' +

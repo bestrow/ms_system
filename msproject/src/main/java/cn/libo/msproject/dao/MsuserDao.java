@@ -16,4 +16,6 @@ public interface MsuserDao {
     public void deleteMsuserById(int id);
 
     public List<Msuser> queryMsuserByVo(MsuserVo msuserVo);
+
+    public Msuser queryMsuserByuseraccount(String useraccount);
 }

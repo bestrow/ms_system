@@ -12,6 +12,11 @@
         <typeAlias type="cn.libo.msproject.entity.Msuser" alias="msuser"/>
         <typeAlias type="cn.libo.msproject.vo.MsuserVo" alias="msuserVo"/>
 
-        <typeAlias type="cn.libo.msproject.entity.Msproductinfo" alias="msproductinfo"/>
+        <!-- 秒杀商品 -->
+        <typeAlias type="cn.libo.msproject.entity.Msproduct" alias="msproduct"/>
+        <typeAlias type="cn.libo.msproject.vo.MsproductVo" alias="msproductVo"/>
+
+        <!-- 秒杀商品详情 -->
+        <typeAlias type="cn.libo.msproject.entity.Msproductdetail" alias="msproductdetail"/>
     </typeAliases>
 </configuration>

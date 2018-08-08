@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.libo.msproject.dao.MsproductdetailDao">
+
+    <insert id="insertMsproductdetail" parameterType="msproductdetail">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO
+        msproductdetail(productid,merchantid,productplace,productname,brandname,productweight,specification,productdetailpicture)
+        VALUES
+        (#{productid},#{merchantid},#{productplace},#{productname},#{brandname},#{productweight},#{specification},#{productdetailpicture})
+    </insert>
+
+    <select id="queryMsproductdetailById" parameterType="int" resultType="msproductdetail">
+        SELECT id,productid,merchantid,productplace,productname,brandname,productweight,specification,productdetailpicture
+        FROM msproductdetail WHERE  productid = #{productid}
+    </select>
+
+    <update id="updateMsproductdetail" parameterType="msproductdetail">
+        UPDATE msproductdetail SET productplace=#{productplace},productname=#{productname},brandname=#{brandname},
+        productweight=#{productweight},specification=#{specification},productdetailpicture=#{productdetailpicture} WHERE id = #{id}
+    </update>
+</mapper>

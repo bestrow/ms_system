@@ -34,4 +34,8 @@ public class MsuserService {
     public List<Msuser> queryMsuserByVo(MsuserVo msuserVo) {
         return msuserDao.queryMsuserByVo(msuserVo);
     }
+
+    public Msuser queryMsuserByuseraccount(String useraccount){
+        return  msuserDao.queryMsuserByuseraccount(useraccount);
+    }
 }

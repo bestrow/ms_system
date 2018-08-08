@@ -60,4 +60,7 @@
         </where>
     </select>
 
+    <select id="queryMsuserByuseraccount" parameterType="java.lang.String" resultType="msuser">
+        SELECT id,username,useraccount,userpassword,usersex,userage,useraddress,useremail FROM msuser WHERE useraccount=#{useraccount}
+    </select>
 </mapper>

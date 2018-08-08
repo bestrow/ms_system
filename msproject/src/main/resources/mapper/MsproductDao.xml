@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.libo.msproject.dao.MsproductDao">
+
+    <insert id="applymsproduct" parameterType="msproduct">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO msproduct(productid,producttitle,productpicture,originalprice,miaoshaprice,
+        merchantid,applydate,auditstate,starttime,endtime,productcount,stockcount,descrioption)
+        VALUES
+        (#{productid},#{producttitle},#{productpicture},#{originalprice},#{miaoshaprice},#{merchantid},#{applydate},
+        #{auditstate},#{starttime},#{endtime},#{productcount},#{stockcount},#{descrioption})
+    </insert>
+
+    <sql id="msproductsql">
+        <if test="msproduct != null">
+            <if test="msproduct.productid != null and msproduct.productid != ''">
+                AND productid = #{msproduct.productid}
+            </if>
+            <if test="msproduct.producttitle != null and msproduct.producttitle != ''">
+                AND producttitle LIKE "%${msproduct.producttitle}%"
+            </if>
+            <if test="startoriginalprice != null and startoriginalprice != ''">
+                AND originalprice &gt;= #{startoriginalprice}
+            </if>
+            <if test="endoriginalprice != null and endoriginalprice != ''">
+                AND originalprice &lt;= #{endoriginalprice}
+            </if>
+            <if test="startmiaoshaprice != null and startmiaoshaprice != ''">
+                AND miaoshaprice &gt;= #{startmiaoshaprice}
+            </if>
+            <if test="endmiaoshaprice != null and endmiaoshaprice != ''">
+                AND miaoshaprice &lt;= #{endmiaoshaprice}
+            </if>
+            <if test="startapplydate != null and startapplydate != ''">
+                AND applydate &gt;= #{startapplydate}
+            </if>
+            <if test="endapplydate != null and endapplydate != ''">
+                AND applydate &lt;= #{endapplydate}
+            </if>
+            <if test="startauditdate != null and startauditdate != ''">
+                AND auditdate &gt;= #{startauditdate}
+            </if>
+            <if test="endauditdate != null and endauditdate != ''">
+                AND auditdate &lt;= #{endauditdate}
+            </if>
+            <if test="msproduct.auditstate != null and msproduct.auditstate != ''">
+                AND auditstate = #{msproduct.auditstate}
+            </if>
+            <if test="startstarttime != null and startstarttime != ''">
+                AND starttime &gt;= #{startstarttime}
+            </if>
+            <if test="endstarttime != null and endstarttime != ''">
+                AND starttime &lt;= #{endstarttime}
+            </if>
+            <if test="startendtime != null and startendtime != ''">
+                AND endtime &gt;= #{startendtime}
+            </if>
+            <if test="endendtime != null and endendtime != ''">
+                AND endtime &lt;= #{endendtime}
+            </if>
+            <if test="startproductcount != null and startproductcount != ''">
+                AND productcount &gt;= #{startproductcount}
+            </if>
+            <if test="endproductcount != null and endproductcount != ''">
+                AND productcount &lt;= #{endproductcount}
+            </if>
+            <if test="startstockcount != null and startstockcount != ''">
+                AND stockcount &gt;= #{startstockcount}
+            </if>
+            <if test="endstockcount != null and endstockcount != ''">
+                AND stockcount &lt;= #{endstockcount}
+            </if>
+            <if test="msproduct.descrioption != null and msproduct.descrioption != ''">
+                AND descrioption LIKE "%${msproduct.descrioption}%"
+            </if>
+        </if>
+    </sql>
+
+    <select id="listMsproduct" parameterType="msproductVo" resultType="msproduct">
+        SELECT
+        id,productid,producttitle,productpicture,originalprice,miaoshaprice,merchantid,
+        applydate,auditdate,auditstate,starttime,endtime,productcount,stockcount,descrioption
+        FROM msproduct
+        <where>
+            <include refid="msproductsql"/>
+        </where>
+    </select>
+
+    <select id="queryMsproductById" parameterType="int" resultType="msproduct">
+        SELECT
+        id,productid,producttitle,productpicture,originalprice,miaoshaprice,merchantid,
+        applydate,auditdate,auditstate,starttime,endtime,productcount,stockcount,descrioption
+        FROM msproduct WHERE id = #{id}
+    </select>
+
+    <delete id="deleteMsproductById" parameterType="int">
+        DELETE FROM msproduct WHERE id = #{id}
+    </delete>
+    <update id="updateMsproduct" parameterType="msproduct">
+        UPDATE msproduct SET producttitle=#{producttitle},productpicture=#{productpicture},
+        originalprice=#{originalprice},miaoshaprice=#{miaoshaprice},
+       starttime=#{starttime},endtime=#{endtime},productcount=#{productcount},
+       stockcount=#{stockcount},descrioption=#{descrioption}
+       WHERE id = #{id}
+    </update>
+    <update id="updateMsproductState" parameterType="msproductVo">
+        UPDATE msproduct SET auditstate=#{msproduct.auditstate},auditdate=#{msproduct.auditdate} WHERE id = #{msproduct.id}
+    </update>
+</mapper>
