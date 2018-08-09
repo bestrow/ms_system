@@ -29,7 +29,7 @@ public class UserRegisterLoginAction {
         msuserService.insertMsuser(msuser);
         request.getSession().setAttribute("msuser", msuser);
         System.out.println(msuser);
-        return "homepage/homepage";
+        return "redirect:/pagehomeAction/tohome";
     }
 
     @RequestMapping("tologin")
@@ -52,7 +52,7 @@ public class UserRegisterLoginAction {
             request.setAttribute("errorinfo", "密码错误");
         } else {
             request.getSession().setAttribute("msuser", result);
-            returnUrl = "homepage/homepage";
+            returnUrl = "redirect:/pagehomeAction/tohome";
         }
         return returnUrl;
     }
@@ -60,8 +60,7 @@ public class UserRegisterLoginAction {
     @RequestMapping("exit")
     public String exit(HttpServletRequest request) {
         request.getSession().removeAttribute("msuser");
-
-        return "homepage/homepage";
+        return "redirect:/pagehomeAction/tohome";
     }
 
 }

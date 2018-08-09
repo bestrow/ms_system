@@ -2,8 +2,6 @@ package cn.libo.msproject.vo;
 
 import cn.libo.msproject.entity.Msproduct;
 
-import java.util.Date;
-
 public class MsproductVo {
 
     private Msproduct msproduct;
@@ -14,17 +12,17 @@ public class MsproductVo {
     private int startmiaoshaprice;//秒杀价格查询范围-->开始
     private int endmiaoshaprice;//秒杀价格查询范围-->结束
 
-    private Date startapplydate;//申请时间查询范围-->开始
-    private Date endapplydate;//申请时间查询范围-->结束
+    private String startapplydate;//申请时间查询范围-->开始
+    private String endapplydate;//申请时间查询范围-->结束
 
-    private Date startauditdate;//审核时间查询范围-->开始
-    private Date endauditdate;//审核时间查询范围-->结束
+    private String startauditdate;//审核时间查询范围-->开始
+    private String endauditdate;//审核时间查询范围-->结束
 
-    private Date startstarttime;//秒杀开始时间查询范围-->开始
-    private Date endstarttime;//秒杀开始时间查询范围-->结束
+    private String startstarttime;//秒杀开始时间查询范围-->开始
+    private String endstarttime;//秒杀开始时间查询范围-->结束
 
-    private Date startendtime;//秒杀结束时间查询范围-->开始
-    private Date endendtime;//秒杀结束时间查询范围-->结束
+    private String startendtime;//秒杀结束时间查询范围-->开始
+    private String endendtime;//秒杀结束时间查询范围-->结束
 
     private int startproductcount;//秒杀商品数查询范围-->开始
     private int endproductcount;//秒杀商品数查询范围-->结束
@@ -72,67 +70,67 @@ public class MsproductVo {
         this.endmiaoshaprice = endmiaoshaprice;
     }
 
-    public Date getStartapplydate() {
+    public String getStartapplydate() {
         return startapplydate;
     }
 
-    public void setStartapplydate(Date startapplydate) {
+    public void setStartapplydate(String startapplydate) {
         this.startapplydate = startapplydate;
     }
 
-    public Date getEndapplydate() {
+    public String getEndapplydate() {
         return endapplydate;
     }
 
-    public void setEndapplydate(Date endapplydate) {
+    public void setEndapplydate(String endapplydate) {
         this.endapplydate = endapplydate;
     }
 
-    public Date getStartauditdate() {
+    public String getStartauditdate() {
         return startauditdate;
     }
 
-    public void setStartauditdate(Date startauditdate) {
+    public void setStartauditdate(String startauditdate) {
         this.startauditdate = startauditdate;
     }
 
-    public Date getEndauditdate() {
+    public String getEndauditdate() {
         return endauditdate;
     }
 
-    public void setEndauditdate(Date endauditdate) {
+    public void setEndauditdate(String endauditdate) {
         this.endauditdate = endauditdate;
     }
 
-    public Date getStartstarttime() {
+    public String getStartstarttime() {
         return startstarttime;
     }
 
-    public void setStartstarttime(Date startstarttime) {
+    public void setStartstarttime(String startstarttime) {
         this.startstarttime = startstarttime;
     }
 
-    public Date getEndstarttime() {
+    public String getEndstarttime() {
         return endstarttime;
     }
 
-    public void setEndstarttime(Date endstarttime) {
+    public void setEndstarttime(String endstarttime) {
         this.endstarttime = endstarttime;
     }
 
-    public Date getStartendtime() {
+    public String getStartendtime() {
         return startendtime;
     }
 
-    public void setStartendtime(Date startendtime) {
+    public void setStartendtime(String startendtime) {
         this.startendtime = startendtime;
     }
 
-    public Date getEndendtime() {
+    public String getEndendtime() {
         return endendtime;
     }
 
-    public void setEndendtime(Date endendtime) {
+    public void setEndendtime(String endendtime) {
         this.endendtime = endendtime;
     }
 

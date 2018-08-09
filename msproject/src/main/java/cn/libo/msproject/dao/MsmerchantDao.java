@@ -16,4 +16,6 @@ public interface MsmerchantDao {
     public void deleteMsmerchantById(int id);
 
     public List<Msmerchant> queryMsmerchantByVo(MsmerchantVo msmerchantVo);
+
+    public Msmerchant queryByaccount(String merchantaccount);
 }

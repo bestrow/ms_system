@@ -54,4 +54,7 @@
         </where>
     </select>
 
+    <select id="queryByaccount" parameterType="java.lang.String" resultType="msmerchant">
+        SELECT id,merchantname,merchantshopname,merchantaccount,merchantpassword,merchantscope FROM msmerchant WHERE merchantaccount=#{merchantaccount}
+    </select>
 </mapper>

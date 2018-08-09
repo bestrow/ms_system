@@ -33,4 +33,8 @@ public class MsmerchantService {
     public List<Msmerchant> queryMsmerchantByVo(MsmerchantVo msmerchantVo) {
         return msmerchantDao.queryMsmerchantByVo(msmerchantVo);
     }
+
+    public Msmerchant queryByaccount(String merchantaccount){
+        return msmerchantDao.queryByaccount(merchantaccount);
+    }
 }

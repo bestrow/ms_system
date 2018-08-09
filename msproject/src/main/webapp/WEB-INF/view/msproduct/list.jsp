@@ -43,9 +43,9 @@
                 <a href="deleteMsproductById?id=${item.id}">删除</a>||
                 <a href="queryMsproductById?id=${item.id}">查看</a>||
                 <a href="toupdateMsproductState?id=${item.id}">审核</a>||
-                <a href="/msproductdetailAction/toinsertMsproductdetail?productid=${item.productid}&&merchantid=${item.merchantid}">添加商品详情</a>||
-                <a href="/msproductdetailAction/queryMsproductdetailById?productid=${item.productid}">查看商品详情</a>||
-                <a href="/msproductdetailAction/toupdateMsproductdetail?productid=${item.productid}">修改商品详情</a>
+                <a href="/msproductdetailAction/toinsertMsproductdetail?productid=${item.id}&&merchantid=${item.merchantid}">添加商品详情</a>||
+                <a href="/msproductdetailAction/queryMsproductdetailById?productid=${item.id}">查看商品详情</a>||
+                <a href="/msproductdetailAction/toupdateMsproductdetail?productid=${item.id}">修改商品详情</a>
             </td>
         </tr>
     </c:forEach>

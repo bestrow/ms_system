@@ -37,31 +37,31 @@
                 AND miaoshaprice &lt;= #{endmiaoshaprice}
             </if>
             <if test="startapplydate != null and startapplydate != ''">
-                AND applydate &gt;= #{startapplydate}
+                AND applydate &gt;= STR_TO_DATE(#{startapplydate},'%Y-%m-%d %H:%i:%s')
             </if>
             <if test="endapplydate != null and endapplydate != ''">
-                AND applydate &lt;= #{endapplydate}
+                AND applydate &lt;= STR_TO_DATE(#{endapplydate},'%Y-%m-%d %H:%i:%s')
             </if>
             <if test="startauditdate != null and startauditdate != ''">
-                AND auditdate &gt;= #{startauditdate}
+                AND auditdate &gt;= STR_TO_DATE(#{startauditdate},'%Y-%m-%d %H:%i:%s')
             </if>
             <if test="endauditdate != null and endauditdate != ''">
-                AND auditdate &lt;= #{endauditdate}
+                AND auditdate &lt;= STR_TO_DATE(#{endauditdate},'%Y-%m-%d %H:%i:%s')
             </if>
             <if test="msproduct.auditstate != null and msproduct.auditstate != ''">
                 AND auditstate = #{msproduct.auditstate}
             </if>
             <if test="startstarttime != null and startstarttime != ''">
-                AND starttime &gt;= #{startstarttime}
+                AND starttime &gt;= STR_TO_DATE(#{startstarttime},'%Y-%m-%d %H:%i:%s')
             </if>
             <if test="endstarttime != null and endstarttime != ''">
-                AND starttime &lt;= #{endstarttime}
+                AND starttime &lt;= STR_TO_DATE(#{endstarttime},'%Y-%m-%d %H:%i:%s')
             </if>
             <if test="startendtime != null and startendtime != ''">
-                AND endtime &gt;= #{startendtime}
+                AND endtime &gt;= STR_TO_DATE(#{startendtime},'%Y-%m-%d %H:%i:%s')
             </if>
             <if test="endendtime != null and endendtime != ''">
-                AND endtime &lt;= #{endendtime}
+                AND endtime &lt;= STR_TO_DATE(#{endendtime},'%Y-%m-%d %H:%i:%s')
             </if>
             <if test="startproductcount != null and startproductcount != ''">
                 AND productcount &gt;= #{startproductcount}

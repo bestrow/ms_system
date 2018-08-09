@@ -3,6 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING" />
+    </settings>
     <typeAliases>
         <!-- 别名定义 -->
         <!-- 秒杀商家 -->
@@ -18,5 +22,8 @@
 
         <!-- 秒杀商品详情 -->
         <typeAlias type="cn.libo.msproject.entity.Msproductdetail" alias="msproductdetail"/>
+
+        <!-- 秒杀订单 -->
+        <typeAlias type="cn.libo.msproject.entity.Msorder" alias="msorder"/>
     </typeAliases>
 </configuration>
