@@ -11,6 +11,7 @@ welcome ${msuser.useraccount}<br>
 <a href="/userRegisterLoginAction/toregister">注册</a>
 <a href="/userRegisterLoginAction/tologin">登录</a>
 <a href="/userRegisterLoginAction/exit">退出</a>
+<a href="/msorderAction/queryMsorderByUserid">订单查询</a>
 
 <table border="2">
     <c:forEach items="${msproductList}" var="item">

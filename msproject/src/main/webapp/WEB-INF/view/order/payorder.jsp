@@ -4,7 +4,7 @@
     <title>Title</title>
 </head>
 <body>
-<form action="payorder">
+<form action="payorder" method="post">
     商品名称:${msproductdetail.productname}<br>
     购买数量:${productnum}<br>
     支付总额:${payamount}<br>

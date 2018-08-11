@@ -15,5 +15,25 @@
         (#{productid},#{payamount},#{userid},#{merchantid},#{createtime},
         #{paystatus},#{receivingadress},#{receivingphone},#{receivingname},#{tradeserialnumber},#{num})
     </insert>
+    <select id="queryMsorderByUserid" parameterType="int" resultType="msorder">
+        SELECT id,productid,payamount,userid,merchantid,createtime,paytime,paystatus,receivingadress,receivingphone,receivingname,tradeserialnumber,num,paytype
+         FROM msorder WHERE userid = #{userid}
+    </select>
+    <select id="queryMsorderByMerchantid" parameterType="int" resultType="msorder">
+        SELECT id,productid,payamount,userid,merchantid,createtime,paytime,paystatus,receivingadress,receivingphone,receivingname,tradeserialnumber,num,paytype
+        FROM msorder WHERE merchantid = #{merchantid}
+    </select>
+    <update id="updateMsorder" parameterType="msorder">
+        UPDATE msorder
+        <set>
+            <if test="paystatus != null and paystatus != ''">
+                paystatus=#{paystatus},
+            </if>
+            <if test="paytype != null and paytype != ''">
+                paytype=#{paytype},
+            </if>
+        </set>
+        WHERE tradeserialnumber=#{tradeserialnumber}
+    </update>
 
 </mapper>

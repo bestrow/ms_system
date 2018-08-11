@@ -4,7 +4,8 @@
     <title>Title</title>
 </head>
 <body>
-<form action="login" method="post">
+${error}
+<form action="/merchantRegisterLoginAction/login" method="post">
     商家账号:<input type="text" name="merchantaccount"><br>
     商家密码:<input type="text" name="merchantpassword"><br>
     <input type="button" value="提交" onclick="submit(this)">

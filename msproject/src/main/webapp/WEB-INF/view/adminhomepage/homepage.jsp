@@ -10,5 +10,6 @@ welcome merchant：${msmerchant.merchantaccount}<br>
 <a href="/merchantRegisterLoginAction/toregister">商家注册</a>
 <a href="/merchantRegisterLoginAction/tologin">商家登录</a>
 <a href="/merchantRegisterLoginAction/exit">商家登录退出</a>
+<a href="/msorderAction/queryMsorderByMerchantid">订单查询</a>
 </body>
 </html>

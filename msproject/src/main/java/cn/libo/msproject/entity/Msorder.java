@@ -12,12 +12,13 @@ public class Msorder {
     private int merchantid; //商家id
     private Date createtime; //创建时间
     private Date paytime; //支付时间
-    private int paystatus; //支付状态
+    private int paystatus; //支付状态 1.未支付 2.已支付 3.退款成功 4.用户发起退款申请 5.退款失败
     private String receivingadress; //收货人地址
     private String receivingphone; //收件人电话
     private String receivingname; //收货人名称
     private String tradeserialnumber; //交易流水号
-    private int num;//数量
+    private int num; //数量
+    private int paytype; //支付方式
 
     public int getId() {
         return id;
@@ -123,6 +124,14 @@ public class Msorder {
         this.num = num;
     }
 
+    public int getPaytype() {
+        return paytype;
+    }
+
+    public void setPaytype(int paytype) {
+        this.paytype = paytype;
+    }
+
     @Override
     public String toString() {
         return "Msorder{" +
@@ -139,6 +148,8 @@ public class Msorder {
                 ", receivingname='" + receivingname + '\'' +
                 ", tradeserialnumber='" + tradeserialnumber + '\'' +
                 ", num=" + num +
+                ", paytype=" + paytype +
                 '}';
     }
 }
+
