@@ -2,6 +2,7 @@ package cn.libo.msproject.action;
 
 import cn.libo.msproject.entity.Msproductdetail;
 import cn.libo.msproject.service.MsproductdetailService;
+import cn.libo.msproject.service.redis.MsproductdetailRedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,9 @@ public class MsproductdetailAction {
 
     @Autowired
     private MsproductdetailService msproductdetailService;
+
+    @Autowired
+    private MsproductdetailRedisService msproductdetailRedisService;
 
     @RequestMapping("toinsertMsproductdetail")
     public String toinsertMsproductdetail(HttpServletRequest request, int productid, int merchantid) {
@@ -32,7 +36,7 @@ public class MsproductdetailAction {
 
     @RequestMapping("queryMsproductdetailById")
     public String queryMsproductdetailById(HttpServletRequest request, int productid) {
-        Msproductdetail msproductdetail = msproductdetailService.queryMsproductdetailById(productid);
+        Msproductdetail msproductdetail = msproductdetailRedisService.queryMsproductdetailById(productid);
         request.setAttribute("msproductdetail", msproductdetail);
         return "msproductdetail/view";
     }

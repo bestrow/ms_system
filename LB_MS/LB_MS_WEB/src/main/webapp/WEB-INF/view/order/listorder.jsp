@@ -28,7 +28,9 @@
             <td>${item.tradeserialnumber}</td>
             <td>${item.num}</td>
             <td>
-                <c:if test="${item.paystatus == 1}"><a href="topaywithMsorder?tradeserialnumber=${item.tradeserialnumber}&&payamount=${item.payamount}">继续支付</a></c:if>
+                <c:if test="${item.paystatus == 1}">
+                    <a href="topaywithMsorder?userid=${item.userid}&&productid=${item.productid}&&tradeserialnumber=${item.tradeserialnumber}&&payamount=${item.payamount}&&merchantid=${item.merchantid}">
+                        继续支付</a></c:if>
                 <c:if test="${item.paystatus == 2}">支付完成 <input type="button" value="申请退款" onclick="applyrefund('${item.tradeserialnumber}')"></c:if>
                 <c:if test="${item.paystatus == 3}">退款成功</c:if>
                 <c:if test="${item.paystatus == 4}">退款申请中</c:if>

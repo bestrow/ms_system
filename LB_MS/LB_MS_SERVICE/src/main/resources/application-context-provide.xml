@@ -11,7 +11,7 @@
     <dubbo:protocol name="dubbo" port="20880" />
 
     <dubbo:application name="LB_MS_SERVICE"/>
-    <dubbo:registry address="zookeeper://192.168.164.131:2181"/>
+    <dubbo:registry address="zookeeper://192.168.189.131:2181"/>
 
     <dubbo:service interface="cn.libo.msproject.service.MsmerchantService" ref="msmerchantServiceImpl"/>
     <bean id="msmerchantServiceImpl" class="cn.libo.msproject.service.MsmerchantServiceImpl"/>

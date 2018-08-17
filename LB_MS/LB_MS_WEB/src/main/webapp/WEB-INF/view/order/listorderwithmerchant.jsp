@@ -33,17 +33,17 @@
                 <c:if test="${item.paystatus == 3}">退款成功</c:if>
                 <c:if test="${item.paystatus == 5}">退款申请不成功</c:if>
                 <c:if test="${item.paystatus == 4}">
-                    <a href="javascript:void" onclick="auditrefund('${item.tradeserialnumber}','3','${item.payamount}','${item.paytype}')" >退款审核通过</a>||
-                    <a href="javascript:void" onclick="auditrefund('${item.tradeserialnumber}','5','${item.payamount}','${item.paytype}')">退款审核不通过</a>
+                    <a href="javascript:void(0)" onclick="auditrefund('${item.tradeserialnumber}','3','${item.payamount}','${item.paytype}','${item.userid}'')" >退款审核通过</a>||
+                    <a href="javascript:void(0)" onclick="auditrefund('${item.tradeserialnumber}','5','${item.payamount}','${item.paytype}')">退款审核不通过</a>
                 </c:if>
             </td>
         </tr>
     </c:forEach>
 </table>
 <script type="text/javascript">
-    function auditrefund(tradeserialnumber,paystatus,payamount,paytype) {
+    function auditrefund(tradeserialnumber,paystatus,payamount,paytype,userid) {
         window.location.href =
-            "auditrefund?tradeserialnumber="+tradeserialnumber+"&&paystatus="+paystatus+"&&payamount="+payamount+"&&paytype="+paytype;
+            "auditrefund?tradeserialnumber="+tradeserialnumber+"&&paystatus="+paystatus+"&&payamount="+payamount+"&&paytype="+paytype+"&&userid="+userid;
     }
 </script>
 </body>

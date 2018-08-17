@@ -1,11 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>Title</title>
 </head>
 <body>
-<form action="/msorderAction/topayorder" method="post">
-    购买数量：<input type="text" name="num">
+<form action="#" method="post">
+    购买数量：1 <input type="hidden" name="num" value="1"><span id="remainnoties"></span>
     <input type="hidden" name="id" value="${msproduct.id}">
     <table border="1">
         <tr>
@@ -23,8 +24,10 @@
             <td>${msproduct.productpicture}</td>
             <td>${msproduct.originalprice}</td>
             <td>${msproduct.miaoshaprice}</td>
-            <td>${msproduct.starttime}</td>
-            <td>${msproduct.endtime}</td>
+            <td><span id="starttime"><fmt:formatDate value="${msproduct.starttime}"
+                                                     pattern="yyyy-MM-dd HH:mm:ss"/></span></td>
+            <td><span id="endtime"><fmt:formatDate value="${msproduct.endtime}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
+            </td>
             <td>${msproduct.productcount}</td>
             <td>${msproduct.stockcount}</td>
         </tr>
@@ -47,12 +50,14 @@
             <td>${msproductdetail.productdetailpicture}</td>
         </tr>
     </table>
-    <input type="button" value="立即购买" onclick="submit(this)">
+    <input id="sellbtn" type="button" value="订单提交" onclick="submit(this)">
 </form>
 </body>
+<script type="text/javascript" src="/js/jquery-3.3.1.min.js"/>
 <script type="text/javascript">
     function submit(obj) {
         obj.parent.submit();
     }
+    document.write("<script  src='/js/remain.js?radom="+Math.random()+"' />");
 </script>
 </html>

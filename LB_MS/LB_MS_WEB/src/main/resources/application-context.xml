@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"
-       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx" xmlns:cache="http://www.springframework.org/schema/cache"
        xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans
      http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -14,6 +15,144 @@
     http://www.springframework.org/schema/cache/spring-cache.xsd">
 
     <!--自动扫描包-->
-    <context:component-scan base-package="cn.libo.msproject.*"/>
+    <context:component-scan base-package="cn.libo.msproject.**"/>
 
+    <bean id="dataSource1" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/test4"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+    </bean>
+
+
+    <!-- 配置线程池-->
+    <bean name="executor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="15"/>
+        <property name="maxPoolSize" value="25"/>
+        <property name="queueCapacity" value="100"/>
+    </bean>
+
+    <bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource1"/>
+    </bean>
+
+    <!-- 配置调度任务-->
+    <bean name="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="configLocation" value="classpath:quartz.properties"/>
+        <property name="dataSource" ref="dataSource1"/>
+        <property name="transactionManager" ref="transactionManager"/>
+
+        <!-- 任务唯一的名称，将会持久化到数据库-->
+        <property name="schedulerName" value="baseScheduler"/>
+
+        <!-- 每台集群机器部署应用的时候会更新触发器-->
+        <property name="overwriteExistingJobs" value="true"/>
+        <property name="applicationContextSchedulerContextKey" value="appli22"/>
+
+        <property name="jobFactory">
+            <bean class="cn.libo.msproject.task.AutowiringSpringBeanJobFactory"/>
+        </property>
+
+        <property name="triggers">
+            <list>
+                <ref bean="printCurrentTimeScheduler"/>
+            </list>
+        </property>
+        <property name="jobDetails">
+            <list>
+                <ref bean="printCurrentTimeJobs"/>
+            </list>
+        </property>
+
+        <property name="taskExecutor" ref="executor"/>
+
+    </bean>
+
+    <!-- 配置Job详情 -->
+    <bean name="printCurrentTimeJobs" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="cn.libo.msproject.task.PrintCurrentTimeJobs"/>
+        <!--<property name="jobDataAsMap">
+            <map>
+                <entry key="clusterQuartz" value="com.aaron.framework.clusterquartz.job.ClusterQuartz"/>
+            </map>
+        </property>-->
+        <property name="durability" value="true"/>
+        <property name="requestsRecovery" value="false"/>
+    </bean>
+
+    <!-- 配置触发时间 -->
+    <bean name="printCurrentTimeScheduler" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="printCurrentTimeJobs"/>
+        <property name="cronExpression">
+            <value>0/10 * * * * ?</value>
+        </property>
+        <property name="timeZone">
+            <value>GMT+8:00</value>
+        </property>
+    </bean>
+
+    <!-- 分布式事务配置 end -->
+
+
+    <!-- 订单超时的定时任务 -->
+    <bean id="dataSource2" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/test3"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+    </bean>
+
+    <!-- 配置调度任务-->
+    <bean name="quartzScheduler1" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="configLocation" value="classpath:quartz.properties"/>
+        <property name="dataSource" ref="dataSource1"/>
+        <property name="transactionManager" ref="transactionManager"/>
+
+        <!-- 任务唯一的名称，将会持久化到数据库-->
+        <property name="schedulerName" value="baseScheduler1"/>
+
+        <!-- 每台集群机器部署应用的时候会更新触发器-->
+        <property name="overwriteExistingJobs" value="true"/>
+        <property name="applicationContextSchedulerContextKey" value="appli55"/>
+
+        <property name="jobFactory">
+            <bean class="cn.libo.msproject.task.AutowiringSpringBeanJobFactory"/>
+        </property>
+
+        <property name="triggers">
+            <list>
+                <ref bean="printCurrentTimeScheduler1"/>
+            </list>
+        </property>
+        <property name="jobDetails">
+            <list>
+                <ref bean="checkOrderTimeOutTask"/>
+            </list>
+        </property>
+
+        <property name="taskExecutor" ref="executor"/>
+
+    </bean>
+
+    <!-- 配置Job详情 -->
+    <bean name="checkOrderTimeOutTask" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="cn.libo.msproject.task.PrintCurrentTimeJobs2"/>
+        <!--<property name="jobDataAsMap">
+            <map>
+                <entry key="clusterQuartz" value="com.aaron.framework.clusterquartz.job.ClusterQuartz"/>
+            </map>
+        </property>-->
+        <property name="durability" value="true"/>
+        <property name="requestsRecovery" value="false"/>
+    </bean>
+    <!-- 配置触发时间 -->
+    <bean name="printCurrentTimeScheduler1" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="checkOrderTimeOutTask"/>
+        <property name="cronExpression">
+            <value>0/1 * * * * ?</value>
+        </property>
+        <property name="timeZone">
+            <value>GMT+8:00</value>
+        </property>
+    </bean>
 </beans>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <!-- 端口 -->
+    <dubbo:protocol name="dubbo" port="20881" />
+    <dubbo:application name="LB_MS_CACHE"/>
+
+    <dubbo:registry address="zookeeper://192.168.189.131:2181"/>
+
+    <dubbo:service interface="cn.libo.msproject.service.cache.MsproductdetailCacheService" ref="msproductdetailCacheServiceImpl"/>
+    <bean id="msproductdetailCacheServiceImpl" class="cn.libo.msproject.service.MsproductdetailCacheServiceImpl"/>
+
+    <dubbo:service interface="cn.libo.msproject.service.cache.MsproductCacheService" ref="msproductCacheServiceImpl"/>
+    <bean id="msproductCacheServiceImpl" class="cn.libo.msproject.service.MsproductCacheServiceImpl"/>
+
+    <dubbo:reference id="msproductdetailService" interface="cn.libo.msproject.service.MsproductdetailService" check="false"/>
+    <dubbo:reference id="msproductService" interface="cn.libo.msproject.service.MsproductService" check="false"/>
+
+</beans>

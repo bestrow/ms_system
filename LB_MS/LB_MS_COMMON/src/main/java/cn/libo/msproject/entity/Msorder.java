@@ -20,6 +20,7 @@ public class Msorder implements Serializable {
     private String tradeserialnumber; //交易流水号
     private int num; //数量
     private int paytype; //支付方式
+    private int orderflag; //0正常,1取消订单
 
     public int getId() {
         return id;
@@ -133,6 +134,14 @@ public class Msorder implements Serializable {
         this.paytype = paytype;
     }
 
+    public int getOrderflag() {
+        return orderflag;
+    }
+
+    public void setOrderflag(int orderflag) {
+        this.orderflag = orderflag;
+    }
+
     @Override
     public String toString() {
         return "Msorder{" +
@@ -150,6 +159,7 @@ public class Msorder implements Serializable {
                 ", tradeserialnumber='" + tradeserialnumber + '\'' +
                 ", num=" + num +
                 ", paytype=" + paytype +
+                ", orderflag=" + orderflag +
                 '}';
     }
 }

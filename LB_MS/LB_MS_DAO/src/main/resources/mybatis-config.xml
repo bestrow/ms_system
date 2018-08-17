@@ -25,5 +25,6 @@
 
         <!-- 秒杀订单 -->
         <typeAlias type="cn.libo.msproject.entity.Msorder" alias="msorder"/>
+        <typeAlias type="cn.libo.msproject.vo.MsorderVo" alias="msorderVo"/>
     </typeAliases>
 </configuration>

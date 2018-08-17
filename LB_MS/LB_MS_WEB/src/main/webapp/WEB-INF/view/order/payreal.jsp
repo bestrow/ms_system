@@ -11,6 +11,9 @@
     银联：<input type="radio" name="paytype" value="3"><br>
     支付总金额：${payamount}<br>
     流水号：${tradeserialnumber}<br>
+    <input type="hidden" name="userid" value="${userid}">
+    <input type="hidden" name="productid" value="${productid}">
+    <input type="hidden" name="merchantid" value="${merchantid}">
     <input type="hidden" name="tradeserialnumber" value="${tradeserialnumber}">
     <input type="hidden" name="payamount" value="${payamount}">
     <input type="submit" value="确认提交">

@@ -2,6 +2,7 @@ package cn.libo.msproject.action;
 
 import cn.libo.msproject.entity.Msproduct;
 import cn.libo.msproject.service.MsproductService;
+import cn.libo.msproject.service.redis.MsproductRedisService;
 import cn.libo.msproject.vo.MsproductVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,9 @@ public class MsproductAction {
 
     @Autowired
     private MsproductService msproductService;
+
+    @Autowired
+    private MsproductRedisService msproductRedisService;
 
     @RequestMapping("toApplymsproduct")
     public String toApplymsproduct() {
@@ -42,7 +46,7 @@ public class MsproductAction {
 
     @RequestMapping("queryMsproductById")
     public String queryMsproductById(HttpServletRequest request, int id) {
-        Msproduct msproduct = msproductService.queryMsproductById(id);
+        Msproduct msproduct = msproductRedisService.queryMsproductById(id);
         request.setAttribute("msproduct", msproduct);
         return "msproduct/view";
 
@@ -70,7 +74,7 @@ public class MsproductAction {
 
     @RequestMapping(value = "updateMsproduct", method = RequestMethod.POST)
     public String updateMsproduct(Msproduct msproduct) {
-        msproductService.updateMsproduct(msproduct);
+        msproductRedisService.updateMsproduct(msproduct);
         return "redirect:listmsproduct";
     }
 

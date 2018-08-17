@@ -13,6 +13,7 @@
     <input type="hidden" name="merchantid" value="${msproduct.merchantid}">
     <input type="hidden" name="payamount" value="${payamount}">
     <input type="hidden" name="num" value="${productnum}">
+    <input type="hidden" name="stockcount" value="${msproduct.stockcount}">
     收货人地址:<input type="text" name="receivingadress"><br>
     收货人电话:<input type="text" name="receivingphone"><br>
     收货人名称:<input type="text" name="receivingname"><br>

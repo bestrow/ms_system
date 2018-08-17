@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <!-- 端口 -->
+    <dubbo:protocol name="dubbo" port="20882" />
+    <dubbo:application name="LB_MS_REDIS"/>
+
+    <dubbo:registry address="zookeeper://192.168.189.131:2181"/>
+
+    <dubbo:service interface="cn.libo.msproject.service.redis.MsproductdetailRedisService" ref="msproductdetailRedisServiceImpl"/>
+    <bean id="msproductdetailRedisServiceImpl" class="cn.libo.msproject.redis.MsproductdetailRedisServiceImpl"/>
+
+    <dubbo:service interface="cn.libo.msproject.service.redis.MsproductRedisService" ref="msproductRedisServiceImpl"/>
+    <bean id="msproductRedisServiceImpl" class="cn.libo.msproject.redis.MsproductRedisServiceImpl"/>
+
+    <dubbo:service interface="cn.libo.msproject.service.redis.OrderRedisService" ref="orderRedisServiceImpl"/>
+    <bean id="orderRedisServiceImpl" class="cn.libo.msproject.redis.OrderRedisServiceImpl"/>
+
+    <dubbo:reference id="msproductCacheService" interface="cn.libo.msproject.service.cache.MsproductCacheService" check="false"/>
+
+    <dubbo:reference id="msproductdetailCacheService" interface="cn.libo.msproject.service.cache.MsproductdetailCacheService" check="false"/>
+
+</beans>

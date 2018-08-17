@@ -23,7 +23,7 @@ public class MsuserAction {
         return "msuser/add";
     }
 
-    @RequestMapping(value = "add",method = RequestMethod.POST)
+    @RequestMapping(value = "add", method = RequestMethod.POST)
     public String add(Msuser msuser) {
         msuserService.insertMsuser(msuser);
         System.out.println(msuser);
@@ -37,7 +37,7 @@ public class MsuserAction {
         return "msuser/update";
     }
 
-    @RequestMapping(value = "update",method = RequestMethod.POST)
+    @RequestMapping(value = "update", method = RequestMethod.POST)
     public String update(HttpServletRequest request, Msuser msuser) {
         msuserService.updateMsuser(msuser);
         System.out.println(msuser);

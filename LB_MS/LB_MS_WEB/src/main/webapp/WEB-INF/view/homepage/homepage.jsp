@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>主页</h1>
-welcome ${msuser.useraccount}<br>
+welcome <span id="useraccount"></span>
 
 <a href="/userRegisterLoginAction/toregister">注册</a>
 <a href="/userRegisterLoginAction/tologin">登录</a>
@@ -26,5 +26,15 @@ welcome ${msuser.useraccount}<br>
         </tr>
     </c:forEach>
 </table>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $.ajax({
+        type:"get",
+        url:"/pagehomeAction/getuser",
+        success:function (msg) {
+            $("#useraccount").html(msg);
+        }
+    });
+</script>
 </body>
 </html>

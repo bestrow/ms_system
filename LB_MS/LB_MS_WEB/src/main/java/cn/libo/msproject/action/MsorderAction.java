@@ -7,6 +7,10 @@ import cn.libo.msproject.service.MsproductdetailService;
 import cn.libo.msproject.service.pay.Alipay;
 import cn.libo.msproject.service.pay.Bankpay;
 import cn.libo.msproject.service.pay.WeChatpay;
+import cn.libo.msproject.service.redis.MsproductRedisService;
+import cn.libo.msproject.service.redis.MsproductdetailRedisService;
+import cn.libo.msproject.service.redis.OrderRedisService;
+import cn.libo.msproject.vo.MsorderVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -39,10 +44,19 @@ public class MsorderAction {
     @Autowired
     private Bankpay bankpay;
 
+    @Autowired
+    private MsproductRedisService msproductRedisService;
+
+    @Autowired
+    private MsproductdetailRedisService msproductdetailRedisService;
+
+    @Autowired
+    private OrderRedisService orderRedisService;
+
     @RequestMapping(value = "topayorder", method = RequestMethod.POST)
     public String topayorder(HttpServletRequest request, int id, int num) {
-        Msproduct msproduct = msproductService.queryMsproductById(id);
-        Msproductdetail msproductdetail = msproductdetailService.queryMsproductdetailById(id);
+        Msproduct msproduct = msproductRedisService.queryMsproductById(id);
+        Msproductdetail msproductdetail = msproductdetailRedisService.queryMsproductdetailById(id);
         request.setAttribute("msproductdetail", msproductdetail);
         request.setAttribute("msproduct", msproduct);
         request.setAttribute("productnum", num);
@@ -54,13 +68,43 @@ public class MsorderAction {
     }
 
     @RequestMapping(value = "payorder", method = RequestMethod.POST)
-    public String payorder(Msorder msorder) {
-        msorder.setCreatetime(new Date());
-        msorder.setPaystatus(1);
-        String tradeserialnumber = UUID.randomUUID().toString();
-        msorder.setTradeserialnumber(tradeserialnumber);
-        msorderService.insertMsOrder(msorder);
-        return "redirect:/pagehomeAction/tohome";
+    public String payorder(HttpServletRequest request, Msorder msorder) {
+        String returnUrl = "redirect:/pagehomeAction/tohome";
+        MsorderVo msorderVo = new MsorderVo();
+        msorderVo.setMsorder(msorder);
+        msorderVo.setStockcount(Integer.valueOf(request.getParameter("stockcount")));
+        Msuser msuser = (Msuser) request.getSession().getAttribute("msuser");
+        if (msuser != null) {
+            long time = orderRedisService.getUserVisitTimes(msuser.getId());
+            long currentTime = System.currentTimeMillis();
+            long shijiancha = currentTime - time;
+            long senconds = shijiancha / 1000;
+            long times = orderRedisService.visitTimes(msuser.getId());
+            if (times / senconds > 50) {
+                System.out.println("非法访问！");
+                return returnUrl;
+            }
+            Map<String, Object> resultMap = orderRedisService.seckill(msuser.getId(), msorder.getProductid(), msorderVo);
+            boolean issuccess = (Boolean) resultMap.get("success");
+            if (issuccess) {
+                System.out.println("秒杀成功！");
+                Map<String, String> dataMap = (Map<String, String>) resultMap.get("dataMap");
+                String merchantid = dataMap.get("merchantid");
+                String payamount = dataMap.get("payamount");
+                String tradeserialnumber = dataMap.get("tradeserialnumber");
+                String productid = dataMap.get("productid");
+                String userid = dataMap.get("userid");
+
+                returnUrl = "redirect:topaywithMsorder?userid=" + userid + "&&productid=" + productid + "&&tradeserialnumber=" + tradeserialnumber
+                        + "&&payamount=" + payamount + "&&merchantid=" + merchantid;
+            } else {
+                System.out.println("秒杀失败！");
+            }
+        } else {
+            request.setAttribute("error", "未登陆");
+            returnUrl = "msuser/tologin";
+        }
+        return returnUrl;
     }
 
     @RequestMapping("queryMsorderByUserid")
@@ -68,7 +112,7 @@ public class MsorderAction {
         String returnUrl = "order/listorder";
         Msuser msuser = (Msuser) request.getSession().getAttribute("msuser");
         if (msuser != null) {
-            List<Msorder> msorderList = msorderService.queryMsorderByUserid(msuser.getId());
+            List<Msorder> msorderList = orderRedisService.queryMsorderByUserid(msuser.getId());
             request.setAttribute("msorderList", msorderList);
         } else {
             request.setAttribute("error", "未登陆");
@@ -97,7 +141,10 @@ public class MsorderAction {
      * @return
      */
     @RequestMapping("topaywithMsorder")
-    public String toPaywithMsorder(HttpServletRequest request, String tradeserialnumber, int payamount) {
+    public String toPaywithMsorder(HttpServletRequest request, int userid, int productid, int merchantid, String tradeserialnumber, int payamount) {
+        request.setAttribute("userid", userid);
+        request.setAttribute("productid", productid);
+        request.setAttribute("merchantid", merchantid);
         request.setAttribute("tradeserialnumber", tradeserialnumber);
         request.setAttribute("payamount", payamount);
         return "order/payreal";
@@ -111,7 +158,7 @@ public class MsorderAction {
      * @return
      */
     @RequestMapping(value = "paywithMsorder", method = RequestMethod.POST)
-    public String paywithMsorder(HttpServletRequest request, int paytype, String tradeserialnumber, int payamount) {
+    public String paywithMsorder(HttpServletRequest request, int paytype, int userid, int productid, int merchantid, String tradeserialnumber, int payamount) {
         Msorder msorder = new Msorder();
         int paystatus = 2;
 
@@ -124,10 +171,12 @@ public class MsorderAction {
         }
 
         if (paystatus == 1) {
-            msorder.setPaytype(paytype);
-            msorder.setTradeserialnumber(tradeserialnumber);
-            msorder.setPaystatus(2);
-            msorderService.updateMsorder(msorder);
+            boolean issuccess = orderRedisService.payorder(paytype, userid, productid, merchantid, tradeserialnumber, payamount);
+            if (issuccess) {
+                System.out.println("支付成功!");
+            } else {
+                System.out.println("保存失败!");
+            }
         }
         return "redirect:queryMsorderByUserid";
     }
@@ -137,10 +186,7 @@ public class MsorderAction {
         String returnUrl = "redirect:queryMsorderByUserid";
         Msuser msuser = (Msuser) request.getSession().getAttribute("msuser");
         if (msuser != null) {
-            Msorder msorder = new Msorder();
-            msorder.setPaystatus(4);
-            msorder.setTradeserialnumber(tradeserialnumber);
-            msorderService.updateMsorder(msorder);
+            orderRedisService.updatePaystatusByTradeserialnumber("update", msuser.getId(), 4, tradeserialnumber, -1);
         } else {
             request.setAttribute("error", "未登陆");
             returnUrl = "msuser/tologin";
@@ -149,31 +195,12 @@ public class MsorderAction {
     }
 
     @RequestMapping("auditrefund")
-    public String auditrefund(HttpServletRequest request, String tradeserialnumber, int paystatus, int payamount, int paytype) {
+    public String auditrefund(HttpServletRequest request, String tradeserialnumber, int userid, int paystatus, int payamount, int paytype) {
         String returnUrl = "redirect:queryMsorderByMerchantid";
         Msmerchant msmerchant = (Msmerchant) request.getSession().getAttribute("msmerchant");
         Msorder msorder = new Msorder();
         if (msmerchant != null) {
-            if (paystatus == 3) {
-                int paystatustemp = 2;
-                if (paytype == 1) {
-                    paystatustemp = alipay.refundwithorder(tradeserialnumber, payamount);
-                } else if (paytype == 2) {
-                    paystatustemp = weChatpay.refundwithorder(tradeserialnumber, payamount);
-                } else if (paytype == 3) {
-                    paystatustemp = bankpay.refundwithorder(tradeserialnumber, payamount);
-                }
-                if (paystatustemp == 1) {
-                    msorder.setPaystatus(paystatus);
-                    msorder.setTradeserialnumber(tradeserialnumber);
-                    msorderService.updateMsorder(msorder);
-                }
-            } else if (paystatus == 5) {
-                msorder.setPaystatus(paystatus);
-                msorder.setTradeserialnumber(tradeserialnumber);
-                msorderService.updateMsorder(msorder);
-            }
-
+            orderRedisService.updatePaystatusByTradeserialnumber("refund", userid, paystatus, tradeserialnumber, paytype);
         } else {
             request.setAttribute("error", "未登陆");
             returnUrl = "msmerchant/tologin";

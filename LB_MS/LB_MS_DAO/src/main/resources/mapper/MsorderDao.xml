@@ -16,11 +16,11 @@
         #{paystatus},#{receivingadress},#{receivingphone},#{receivingname},#{tradeserialnumber},#{num})
     </insert>
     <select id="queryMsorderByUserid" parameterType="int" resultType="msorder">
-        SELECT id,productid,payamount,userid,merchantid,createtime,paytime,paystatus,receivingadress,receivingphone,receivingname,tradeserialnumber,num,paytype
+        SELECT id,productid,payamount,userid,merchantid,createtime,paytime,paystatus,receivingadress,receivingphone,receivingname,tradeserialnumber,num,paytype,orderflag
          FROM msorder WHERE userid = #{userid}
     </select>
     <select id="queryMsorderByMerchantid" parameterType="int" resultType="msorder">
-        SELECT id,productid,payamount,userid,merchantid,createtime,paytime,paystatus,receivingadress,receivingphone,receivingname,tradeserialnumber,num,paytype
+        SELECT id,productid,payamount,userid,merchantid,createtime,paytime,paystatus,receivingadress,receivingphone,receivingname,tradeserialnumber,num,paytype,orderflag
         FROM msorder WHERE merchantid = #{merchantid}
     </select>
     <update id="updateMsorder" parameterType="msorder">
@@ -35,5 +35,17 @@
         </set>
         WHERE tradeserialnumber=#{tradeserialnumber}
     </update>
-
+    <update id="updateMsorderByTrnumber" parameterType="msorderVo">
+        UPDATE msorder SET paystatus=#{msorder.paystatus}, paytype=#{msorder.paytype},paytime=#{msorder.paytime} WHERE tradeserialnumber=#{msorder.tradeserialnumber}
+    </update>
+    <update id="updatePaystatusByTradeserialnumber" parameterType="msorder">
+        UPDATE msorder SET paystatus=#{paystatus} WHERE tradeserialnumber=#{tradeserialnumber}
+    </update>
+    <select id="listMsorder" resultType="msorder">
+        SELECT id,productid,payamount,userid,merchantid,createtime,paytime,paystatus,receivingadress,receivingphone,receivingname,tradeserialnumber,num,paytype,orderflag
+        FROM msorder
+    </select>
+    <update id="updateflagById" parameterType="msorder">
+        UPDATE msorder SET orderflag=#{orderflag} WHERE id=#{id}
+    </update>
 </mapper>
