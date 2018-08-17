@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING" />
+    </settings>
+    <typeAliases>
+        <!-- 别名定义 -->
+        <!-- 秒杀商家 -->
+        <typeAlias type="cn.libo.msproject.entity.Msmerchant" alias="msmerchant"/>
+        <typeAlias type="cn.libo.msproject.vo.MsmerchantVo" alias="msmerchantVo"/>
+        <!-- 秒杀用户 -->
+        <typeAlias type="cn.libo.msproject.entity.Msuser" alias="msuser"/>
+        <typeAlias type="cn.libo.msproject.vo.MsuserVo" alias="msuserVo"/>
+
+        <!-- 秒杀商品 -->
+        <typeAlias type="cn.libo.msproject.entity.Msproduct" alias="msproduct"/>
+        <typeAlias type="cn.libo.msproject.vo.MsproductVo" alias="msproductVo"/>
+
+        <!-- 秒杀商品详情 -->
+        <typeAlias type="cn.libo.msproject.entity.Msproductdetail" alias="msproductdetail"/>
+
+        <!-- 秒杀订单 -->
+        <typeAlias type="cn.libo.msproject.entity.Msorder" alias="msorder"/>
+    </typeAliases>
+</configuration>

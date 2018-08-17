@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://code.alibabatech.com/schema/dubbo
+       http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- 端口 -->
+    <dubbo:protocol name="dubbo" port="20880" />
+
+    <dubbo:application name="LB_MS_SERVICE"/>
+    <dubbo:registry address="zookeeper://192.168.164.131:2181"/>
+
+    <dubbo:service interface="cn.libo.msproject.service.MsmerchantService" ref="msmerchantServiceImpl"/>
+    <bean id="msmerchantServiceImpl" class="cn.libo.msproject.service.MsmerchantServiceImpl"/>
+
+    <dubbo:service interface="cn.libo.msproject.service.MsorderService" ref="msorderServiceImpl"/>
+    <bean id="msorderServiceImpl" class="cn.libo.msproject.service.MsorderServiceImpl"/>
+
+    <dubbo:service interface="cn.libo.msproject.service.MsproductdetailService" ref="msproductdetailServiceImpl"/>
+    <bean id="msproductdetailServiceImpl" class="cn.libo.msproject.service.MsproductdetailServiceImpl"/>
+
+    <dubbo:service interface="cn.libo.msproject.service.MsproductService" ref="msproductServiceImpl"/>
+    <bean id="msproductServiceImpl" class="cn.libo.msproject.service.MsproductServiceImpl"/>
+
+    <dubbo:service interface="cn.libo.msproject.service.MsuserService" ref="msuserServiceImpl"/>
+    <bean id="msuserServiceImpl" class="cn.libo.msproject.service.MsuserServiceImpl"/>
+
+    <dubbo:service interface="cn.libo.msproject.service.pay.WeChatpay" ref="weChatpayImpl"/>
+    <bean id="weChatpayImpl" class="cn.libo.msproject.service.pay.WeChatpayImpl"/>
+
+    <dubbo:service interface="cn.libo.msproject.service.pay.Bankpay" ref="bankpayImpl"/>
+    <bean id="bankpayImpl" class="cn.libo.msproject.service.pay.BankpayImpl"/>
+
+    <dubbo:service interface="cn.libo.msproject.service.pay.Alipay" ref="alipayImpl"/>
+    <bean id="alipayImpl" class="cn.libo.msproject.service.pay.AlipayImpl"/>
+
+</beans>

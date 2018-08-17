@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.libo.msproject.dao.MsuserDao">
+
+    <insert id="insertMsuser" parameterType="msuser">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO msuser(username,useraccount,userpassword,usersex,userage,useraddress,useremail)
+        VALUES (#{username},#{useraccount},#{userpassword},#{usersex},#{userage},#{useraddress},#{useremail})
+    </insert>
+
+    <select id="queryMsuserById" parameterType="int" resultType="msuser">
+        SELECT id,username,useraccount,userpassword,usersex,userage,useraddress,useremail FROM msuser WHERE id=#{id}
+    </select>
+
+    <update id="updateMsuser" parameterType="msuser">
+        UPDATE msuser SET username=#{username},useraccount=#{useraccount},userpassword=#{userpassword},usersex=#{usersex},
+        userage=#{userage},useraddress=#{useraddress},useremail=#{useremail} WHERE id=#{id}
+    </update>
+
+    <delete id="deleteMsuserById" parameterType="int">
+         DELETE FROM  msuser WHERE id=#{id}
+    </delete>
+
+
+    <sql id="msusersql">
+        <if test="msuser != null">
+            <if test="msuser.username != null and msuser.username != ''">
+                AND username = #{msuser.username}
+            </if>
+            <if test="msuser.useraccount != null and msuser.useraccount != ''">
+                AND useraccount = #{msuser.useraccount}
+            </if>
+            <if test="msuser.userpassword != null and msuser.userpassword != ''">
+                AND userpassword = #{msuser.userpassword}
+            </if>
+            <if test="msuser.usersex != null and msuser.usersex != ''">
+                AND usersex = #{msuser.usersex}
+            </if>
+            <if test="msuser.userage != null and msuser.userage != ''">
+                AND userage = #{msuser.userage}
+            </if>
+            <if test="msuser.useraddress != null and msuser.useraddress != ''">
+                AND useraddress = #{msuser.useraddress}
+            </if>
+            <if test="msuser.useremail != null and msuser.useremail != ''">
+                AND useremail = #{msuser.useremail}
+            </if>
+        </if>
+    </sql>
+
+    <select id="queryMsuserByVo" parameterType="msuserVo" resultType="msuser">
+        SELECT id,username,useraccount,userpassword,usersex,userage,useraddress,useremail FROM msuser
+        <where>
+            <include refid="msusersql"/>
+        </where>
+    </select>
+
+    <select id="queryMsuserByuseraccount" parameterType="java.lang.String" resultType="msuser">
+        SELECT id,username,useraccount,userpassword,usersex,userage,useraddress,useremail FROM msuser WHERE useraccount=#{useraccount}
+    </select>
+</mapper>
